@@ -1,6 +1,41 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const Login = () => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+
+      const response = await axios.post(
+        "http://localhost:3000/api/auth/login",
+        formData,
+      );
+
+      toast.success(response.data.message);
+
+      setFormData({
+        email: "",
+        password: "",
+      });
+    } catch (error) {
+      console.log(error.response.data);
+      toast.error(error.response.data.message);
+    }
+  };
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
       <div className="bg-white w-full max-w-md p-8 rounded-2xl shadow-sm border">
@@ -8,12 +43,15 @@ const Login = () => {
 
         <p className="text-gray-500 mt-2">Login to your account.</p>
 
-        <form className="mt-8 space-y-5">
+        <form onSubmit={handleSubmit} className="mt-8 space-y-5">
           <div>
             <label className="block text-sm font-medium mb-2">
               Email Address
             </label>
             <input
+              onChange={handleChange}
+              name="email"
+              value={formData.email}
               type="email"
               placeholder="Enter your email"
               required
@@ -25,6 +63,9 @@ const Login = () => {
             <label className="block text-sm font-medium mb-2">Password</label>
             <input
               type="password"
+              onChange={handleChange}
+              name="password"
+              value={formData.password}
               placeholder="Enter your password"
               required
               className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"

@@ -4,10 +4,12 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import MainLayout from "./layout/MainLayout";
 import Contact from "./pages/Contact";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
   return (
     <BrowserRouter>
+      <ToastContainer />
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />

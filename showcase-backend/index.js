@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import contactRoute from "./routes/contact.route.js";
 import authRoute from "./routes/auth.route.js";
-import { register } from "./controller/auth.controller.js";
+import cors from "cors";
 
 dotenv.config();
 
@@ -11,6 +11,12 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
+
+app.use(
+  cors({
+    origin: ["http://localhost:5173"],
+  }),
+);
 app.use("/api/contact", contactRoute);
 app.use("/api/auth", authRoute);
 
