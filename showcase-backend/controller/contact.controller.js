@@ -1,3 +1,4 @@
+import Contact from "../models/contact.model.js";
 const sendMessage = async (req, res) => {
   try {
     const { fullName, email, message } = req.body;
